@@ -35,6 +35,7 @@
     "dist/**"
   ],
   "scripts": {
+    "prepare": "yarn run build-prod",
     "build-prod": "webpack --mode production && yarn types",
     "build-dev": "webpack --mode development",
     "format": "prettier --write src/*.ts src/**/*.ts test/**/*.ts",

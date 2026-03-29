@@ -493,6 +493,7 @@ export function adjustmentRatios(
   items: InputItem[],
   lineLengths: number | number[],
   breakpoints: number[],
+  options: PositionOptions = {},
 ) {
   const lineLen = (i: number) => (Array.isArray(lineLengths) ? lineLengths[i] : lineLengths);
   const ratios = [];
@@ -524,6 +525,10 @@ export function adjustmentRatios(
       adjustmentRatio = (idealWidth - actualWidth) / lineShrink;
     }
 
+    if (options.maxAdjustmentRatio != null) {
+      adjustmentRatio = Math.min(adjustmentRatio, options.maxAdjustmentRatio);
+    }
+
     ratios.push(adjustmentRatio);
   }
 
@@ -532,6 +537,7 @@ export function adjustmentRatios(
 
 export interface PositionOptions {
   includeGlue?: boolean;
+  maxAdjustmentRatio?: number;
 }
 
 /**
@@ -548,7 +554,7 @@ export function positionItems(
   breakpoints: number[],
   options: PositionOptions = {},
 ): PositionedItem[] {
-  const adjRatios = adjustmentRatios(items, lineLengths, breakpoints);
+  const adjRatios = adjustmentRatios(items, lineLengths, breakpoints, options);
   const result: PositionedItem[] = [];
 
   for (let b = 0; b < breakpoints.length - 1; b++) {

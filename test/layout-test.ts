@@ -646,6 +646,48 @@ describe('layout', () => {
       ]);
     });
 
+    it('can limit maximum adjustment ratio', () => {
+      const items = [
+        box(10),
+        glue(10, 5, 5),
+        box(10),
+        glue(10, 5, 5),
+        box(10),
+        glue(10, 5, 5),
+        forcedBreak(),
+      ];
+      const lineWidth = 35;
+      const breakpoints = [0, 3, 6];
+
+      const boxes = positionItems(
+        items,
+        lineWidth,
+        breakpoints,
+        { maxAdjustmentRatio: 0.5 }
+      );
+
+      assert.deepEqual(boxes, [
+        {
+          item: 0,
+          line: 0,
+          xOffset: 0,
+          width: 10,
+        },
+        {
+          item: 2,
+          line: 0,
+          xOffset: 22.5,
+          width: 10,
+        },
+        {
+          item: 4,
+          line: 1,
+          xOffset: 0,
+          width: 10,
+        },
+      ]);
+    });
+
     it('does not let gap between boxes shrink below `glue.width - glue.shrink`', () => {
       const items = [box(10), glue(10, 5, 5), box(100), forcedBreak()];
       const lineWidth = 50;
