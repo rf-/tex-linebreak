@@ -9,12 +9,14 @@ for (let lang of hyphenLangs) {
 }
 
 module.exports = {
+  optimization: {
+    minimize: false,
+  },
   entry: {
     demos: './src/demos/layout.ts',
     lib: './src',
     ...hyphenLibs,
   },
-  devtool: 'cheap-source-map',
   module: {
     rules: [{
       test: /\.ts$/,
